@@ -21,28 +21,34 @@ class ComboBox extends HTMLElement {
         this._inputKeyUp = this._inputKeyUp.bind(this);
         this._inputClick = this._inputClick.bind(this);
         this._optionSelect = this._optionSelect.bind(this);
+        this._blur = this._blur.bind(this);
     }
     connectedCallback() {
         this._root.innerHTML = `
             <style>
                 :host {
-                
+                    --p-color: var(--primary-color, #333);
+                    --s-color: var(--secondary-color, #E1E1E1);
+                    --bg-color: var(--background-color, #FFF);
                 }
                 #cb-drop-down {
-                    height: 0;
+                    height: 0;                   
                     will-change: transform;
                     pointer-events: none;
                     position: absolute;
                     overflow: hidden;
-                    background-color: #FFF;
-                    
+                    box-sizing : border-box;
+                    background-color: var(--bg-color);
+                  
+                    transition: height 300ms ease, margin-top 300ms ease, padding-top 300ms ease;
+                    z-index: 1;
+                    box-shadow: 0 1px 1px #CCC;
                 }
                 #cb-drop-down.open {
                     padding-top: 10px;
                     max-height: 400px;
                     overflow-y: scroll;
-                    pointer-events: inherit;
-                    transition: height 300ms ease;                    
+                    pointer-events: inherit;                   
                 }
                 .controls {
                     position: relative;              
@@ -51,7 +57,13 @@ class ComboBox extends HTMLElement {
                     width: 100%;
                     height: 2.5em;
                     padding: 0 .5em;
+                    border: solid 1px var(--s-color);
                     box-sizing : border-box;
+                    color: var(--p-color);
+                    background-color: var(--bg-color);
+                    outline: 0;
+                    position: relative;
+                    z-index: 2;
                 }
                 .cb-ctrl-btn {
                     border: none;
@@ -66,6 +78,8 @@ class ComboBox extends HTMLElement {
                     transform: rotate(0deg);            
                     transition: transform 300ms ease;
                     outline: 0;
+                    color: var(--p-color);
+                    z-index: 2;
                 }
                 #cb-toggle-btn.up {
                     transform: rotate(-180deg);            
@@ -79,7 +93,7 @@ class ComboBox extends HTMLElement {
                     clear: both;
                 }
                 ::slotted(cb-option:hover) {
-                    background-color: #F1F1F1;
+                    background-color: var(--s-color);
                     cursor: pointer;
                 }
             </style>
@@ -101,6 +115,7 @@ class ComboBox extends HTMLElement {
         this._input.addEventListener("keyup", this._inputKeyUp);
         window.addEventListener("resize", this._winResize);
         this._dropDown.addEventListener("click", this._optionSelect);
+        this._input.addEventListener("blur", this._blur);
     }
     set open(value) {
         if (this._open === value) return;
@@ -120,6 +135,13 @@ class ComboBox extends HTMLElement {
             this._dropDown.style.height = 0;
             this._dropDown.classList.remove("open");
             this._toggleBtn.classList.remove("up");
+            this.childNodes.forEach(($child) => {
+                if ($child.nodeType === 1) {
+                    if ($child.style.display === "none") {
+                        $child.style.display = "inherit";
+                    }
+                }
+            });
         }
     }
     get open() {
@@ -154,16 +176,21 @@ class ComboBox extends HTMLElement {
                     $child.style.display = "inherit";
                 }
             }
-        })
+        });
     }
     _optionSelect(event) {
-        if (event.target.nodeName === "CB-OPTION"){
+        if (event.target.nodeName === "CB-OPTION") {
             this.value = {
                 "value": event.target.getAttribute("value"),
                 "label": event.target.innerHTML
             };
             this.open = false;
         }
+    }
+    _blur() {
+        setTimeout(() => {
+            this.open = false;
+        }, 300);
     }
 
     disconnectCallback() {
