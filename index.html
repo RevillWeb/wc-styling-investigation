@@ -3,9 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Component Styling Experiments</title>
-    <script src="combo-box.js"></script>
+    <script src="polyfills/shadydom.min.js"></script>
+    <script src="polyfills/document-register-element.min.js"></script>
+    <script src="polyfills/webcomponents-lite.min.js"></script>
+    <script src="polyfills/shadycss.min.js"></script>
+    <!--<script src="combo-box/combo-box.js"></script>-->
+    <link rel="import" href="combo-box/combo-box.html" />
     <style>
         body {
+            font-size: 16px;
             background-color: #f6f6f6;
         }
         section {
@@ -34,6 +40,7 @@
             <cb-option value="9">Option 9</cb-option>
             <cb-option value="10">Option 10</cb-option>
         </combo-box>
+        <p>HELLO I SHOULD NOT BE ORANGE!</p>
     </section>
 </body>
 </html>
