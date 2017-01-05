@@ -84,7 +84,7 @@
 </template>
 <script>
     const $template = (document._currentScript.ownerDocument || document.currentScript.ownerDocument).getElementById("combo-box-template");
-    ShadyCSS.prepareTemplate($template, "combo-box");
+    if (ShadyCSS) ShadyCSS.prepareTemplate($template, "combo-box");
 
     /**
      * Created by leon on 12/18/2016.
@@ -114,7 +114,7 @@
             return self;
         }
         connectedCallback() {
-            ShadyCSS.applyStyle(this);
+            if (ShadyCSS) ShadyCSS.applyStyle(this);
             this._root.appendChild(this._$template);
             this._input = this._root.querySelector("#cb-input");
             this._dropDown = this._root.querySelector("#cb-drop-down");
@@ -213,10 +213,4 @@
     }
 
     window.customElements.define("combo-box", ComboBox);
-
-    class CbOption extends HTMLElement {
-
-    }
-
-    window.customElements.define("cb-option", CbOption);
 </script>

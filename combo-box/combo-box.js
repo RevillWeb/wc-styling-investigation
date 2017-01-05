@@ -2,29 +2,10 @@
  * Created by leon on 12/18/2016.
  */
 class ComboBox extends HTMLElement {
-    constructor() {
-        super();
-        this._root = this.attachShadow({"mode": "open"});
+    constructor(self) {
 
-        //Important elements
-        this._input = null;
-        this._dropDown = null;
-        this._toggleBtn = null;
-
-        //Internal values
-        this._open = false;
-        this._value = null;
-
-        // Bind event handlers
-        this._toggleBtnClick = this._toggleBtnClick.bind(this);
-        this._winResize = this._winResize.bind(this);
-        this._inputKeyUp = this._inputKeyUp.bind(this);
-        this._inputClick = this._inputClick.bind(this);
-        this._optionSelect = this._optionSelect.bind(this);
-        this._blur = this._blur.bind(this);
-    }
-    connectedCallback() {
-        this._root.innerHTML = `
+        let $template = document.createElement("template");
+        $template.innerHTML = `
             <style>
                 :host {
                     --p-color: var(--primary-color, #333);
@@ -105,6 +86,37 @@ class ComboBox extends HTMLElement {
                 <slot></slot>
             </div>           
         `;
+
+        if (ShadyCSS) {
+            ShadyCSS.prepareTemplate($template, "combo-box");
+        }
+
+        self = super(self);
+        self._root = this.attachShadow({"mode": "open"});
+
+        self._$template = document.importNode($template.content, true);
+
+        //Important elements
+        self._input = null;
+        self._dropDown = null;
+        self._toggleBtn = null;
+
+        //Internal values
+        self._open = false;
+        self._value = null;
+
+        // Bind event handlers
+        self._toggleBtnClick = this._toggleBtnClick.bind(self);
+        self._winResize = this._winResize.bind(self);
+        self._inputKeyUp = this._inputKeyUp.bind(self);
+        self._inputClick = this._inputClick.bind(self);
+        self._optionSelect = this._optionSelect.bind(self);
+        self._blur = this._blur.bind(self);
+        return self;
+    }
+    connectedCallback() {
+        if (ShadyCSS) ShadyCSS.applyStyle(this);
+        this._root.appendChild(this._$template);
         this._input = this._root.getElementById("cb-input");
         this._dropDown = this._root.getElementById("cb-drop-down");
         this._toggleBtn = this._root.getElementById("cb-toggle-btn");
@@ -202,9 +214,3 @@ class ComboBox extends HTMLElement {
 }
 
 window.customElements.define("combo-box", ComboBox);
-
-class CbOption extends HTMLElement {
-
-}
-
-window.customElements.define("cb-option", CbOption);
