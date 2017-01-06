@@ -31,7 +31,7 @@ Because choosing colors (and other aspects of styling) that work well together i
 
 ##Issues
 
-* There is currently an outstanding bug ([#20](https://github.com/webcomponents/shadycss/issues/20)) in the ShadyCSS library which means CSS Custom Properties are not shimmed for IE 11. There is already an [un-merged pull request](https://github.com/webcomponents/shadycss/pull/23) with this fix but this appears to cause further issues.
+* There is currently an outstanding bug ([#20](https://github.com/webcomponents/shadycss/issues/20)) in the ShadyCSS shim which means CSS Custom Properties are not shimmed for IE 11. There is already an [un-merged pull request](https://github.com/webcomponents/shadycss/pull/23) with this fix but this appears to cause further issues.
 * The full webcomponents-lite.min.js polyfill couldn't be used because the WebComponentsReady event causes an exception in the ShadyDOM polyfill
 * While the ShadyCSS polyfill provides encapsulation to prevent component styles leaking into the outer document it doesn't prevent outer document style leaking into the component
 
@@ -42,3 +42,8 @@ Because choosing colors (and other aspects of styling) that work well together i
 * Introduce additional components
 * Discover a suitable method for users to opt-out of component default styling
 
+##Contributing
+
+1. Clone the repo
+2. `npm install`
+3. `npm run transpile` to transpile the `drop-select.js` Web Component
