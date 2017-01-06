@@ -1,7 +1,7 @@
 /**
  * Created by leon on 12/18/2016.
  */
-class ComboBox extends HTMLElement {
+class DropSelect extends HTMLElement {
     constructor(self) {
 
         let $template = document.createElement("template");
@@ -12,20 +12,19 @@ class ComboBox extends HTMLElement {
                     --s-color: var(--secondary-color, #E1E1E1);
                     --bg-color: var(--background-color, #FFF);
                 }
-                #cb-drop-down {
+                .ds-drop-down {
                     height: 0;                   
                     will-change: transform;
                     pointer-events: none;
                     position: absolute;
                     overflow: hidden;
                     box-sizing : border-box;
-                    background-color: var(--bg-color);
-                  
+                    background-color: var(--bg-color, #FFF);                  
                     transition: height 300ms ease, margin-top 300ms ease, padding-top 300ms ease;
                     z-index: 1;
                     box-shadow: 0 1px 1px #CCC;
                 }
-                #cb-drop-down.open {
+                .ds-drop-down.open {
                     padding-top: 10px;
                     max-height: 400px;
                     overflow-y: scroll;
@@ -34,7 +33,7 @@ class ComboBox extends HTMLElement {
                 .controls {
                     position: relative;              
                 }
-                #cb-input {
+                #ds-input {
                     width: 100%;
                     height: 2.5em;
                     padding: 0 .5em;
@@ -46,12 +45,15 @@ class ComboBox extends HTMLElement {
                     position: relative;
                     z-index: 2;
                 }
-                .cb-ctrl-btn {
+                #ds-input::-ms-clear {
+                    display: none;
+                }
+                .ds-ctrl-btn {
                     border: none;
                     background: none;
                     cursor: pointer;
                 }
-                #cb-toggle-btn {
+                #ds-toggle-btn {
                     font-size: 1.5em;
                     position: absolute;
                     right: 0;
@@ -62,34 +64,33 @@ class ComboBox extends HTMLElement {
                     color: var(--p-color);
                     z-index: 2;
                 }
-                #cb-toggle-btn.up {
+                #ds-toggle-btn.up {
                     transform: rotate(-180deg);            
                     transition: transform 300ms ease;
                 }
-                ::slotted(cb-option) {
+                .ds-drop-down ::slotted(ds-option) {
                     display: block;
                     height: 2em;
                     padding: .5em;
                     line-height: 2em;
                     clear: both;
                 }
-                ::slotted(cb-option:hover) {
+                .ds-drop-down ::slotted(ds-option:hover) {
                     background-color: var(--s-color);
                     cursor: pointer;
                 }
             </style>
             <div class="controls">
-                <input type="text" id="cb-input" />
-                <button class="cb-ctrl-btn" id="cb-toggle-btn">&#9662;</button>
+                <input type="text" id="ds-input" />
+                <button class="ds-ctrl-btn" id="ds-toggle-btn">&#9662;</button>
             </div>           
-            <div id="cb-drop-down">
+            <div class="ds-drop-down">
                 <slot></slot>
             </div>           
         `;
 
-        if (ShadyCSS) {
-            ShadyCSS.prepareTemplate($template, "combo-box");
-        }
+        // If the ShadyCSS polyfill is present then prepare the template (auto no-ops)
+        if (ShadyCSS) ShadyCSS.prepareTemplate($template, "drop-select");
 
         self = super(self);
         self._root = this.attachShadow({"mode": "open"});
@@ -115,11 +116,12 @@ class ComboBox extends HTMLElement {
         return self;
     }
     connectedCallback() {
+        // If the ShadyCSS polyfill is present, apply the style  (auto no-ops)
         if (ShadyCSS) ShadyCSS.applyStyle(this);
         this._root.appendChild(this._$template);
-        this._input = this._root.getElementById("cb-input");
-        this._dropDown = this._root.getElementById("cb-drop-down");
-        this._toggleBtn = this._root.getElementById("cb-toggle-btn");
+        this._input = this._root.querySelector("#ds-input");
+        this._dropDown = this._root.querySelector(".ds-drop-down");
+        this._toggleBtn = this._root.querySelector("#ds-toggle-btn");
 
         //Setup event handlers
         this._toggleBtn.addEventListener("click", this._toggleBtnClick);
@@ -180,6 +182,7 @@ class ComboBox extends HTMLElement {
         this.open = true;
     }
     _inputKeyUp(event) {
+        this.open = true;
         this.childNodes.forEach(($child) => {
             if ($child.nodeType === 1) {
                 if ($child.innerHTML.indexOf(event.target.value) === -1) {
@@ -191,7 +194,7 @@ class ComboBox extends HTMLElement {
         });
     }
     _optionSelect(event) {
-        if (event.target.nodeName === "CB-OPTION") {
+        if (event.target.nodeName === "DS-OPTION") {
             this.value = {
                 "value": event.target.getAttribute("value"),
                 "label": event.target.innerHTML
@@ -213,4 +216,4 @@ class ComboBox extends HTMLElement {
     }
 }
 
-window.customElements.define("combo-box", ComboBox);
+window.customElements.define("drop-select", DropSelect);

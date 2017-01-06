@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Component Styling Experiments</title>
-    <script src="polyfills/shadydom.min.js"></script>
+
+    <script src="polyfills/array-from.js"></script> <!-- Required for IE11 -->
+    <script src="polyfills/promise-polyfill.min.js"></script> <!-- Required for IE11 -->
     <script src="polyfills/document-register-element.min.js"></script>
-    <script src="polyfills/webcomponents-lite.min.js"></script>
-    <script src="polyfills/shadycss.min.js"></script>
-    <!--<script src="combo-box/combo-box.js"></script>-->
-    <link rel="import" href="combo-box/combo-box.html" />
+    <script src="polyfills/template.js"></script>
+    <script src="polyfills/shadydom_es5.min.js"></script>
+    <script src="polyfills/shadycss_es5.min.js"></script>
+
+    <script src="drop-select/dist/drop-select.js"></script>
+
     <style>
         body {
             font-size: 16px;
@@ -18,29 +22,38 @@
             width: 70%;
             margin: auto;
         }
-        combo-box {
+        drop-select {
             --primary-color: red;
             /*--secondary-color: orange;*/
             /*--bg-color: brown;*/
+            /*--background-color: white;*/
         }
+        /*.cb-drop-down {*/
+            /*background-color: #2ae17d;*/
+            /*color: #1d8844;*/
+            /*border: solid 0.1em #1d8844;*/
+            /*text-align: center;*/
+            /*line-height: 2em;*/
+        /*}*/
     </style>
+
 </head>
 <body>
     <section>
         <h1>Combo Box</h1>
-        <combo-box>
-            <cb-option value="1">Option 1</cb-option>
-            <cb-option value="2">Option 2</cb-option>
-            <cb-option value="3">Option 3</cb-option>
-            <cb-option value="4">Option 4</cb-option>
-            <cb-option value="5">Option 5</cb-option>
-            <cb-option value="6">Option 6</cb-option>
-            <cb-option value="7">Option 7</cb-option>
-            <cb-option value="8">Option 8</cb-option>
-            <cb-option value="9">Option 9</cb-option>
-            <cb-option value="10">Option 10</cb-option>
-        </combo-box>
-        <p>HELLO I SHOULD NOT BE ORANGE!</p>
+        <drop-select>
+            <ds-option value="1">Option 1</ds-option>
+            <ds-option value="2">Option 2</ds-option>
+            <ds-option value="3">Option 3</ds-option>
+            <ds-option value="4">Option 4</ds-option>
+            <ds-option value="5">Option 5</ds-option>
+            <ds-option value="6">Option 6</ds-option>
+            <ds-option value="7">Option 7</ds-option>
+            <ds-option value="8">Option 8</ds-option>
+            <ds-option value="9">Option 9</ds-option>
+            <ds-option value="10">Option 10</ds-option>
+        </drop-select>
+        <p class="cb-drop-down">CSS scope test, this <strong>shouldn't</strong> have a background color.</p>
     </section>
 </body>
 </html>

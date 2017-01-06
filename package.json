@@ -1,0 +1,27 @@
+{
+  "name": "wc-styling-investigation",
+  "version": "1.0.0",
+  "description": "Repo used for investigations on Web Component styling methods.",
+  "main": "index.html",
+  "scripts": {
+    "transpile": "babel --presets es2015 drop-select/src/drop-select.js --out-file drop-select/dist/drop-select.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RevillWeb/wc-styling-investigation.git"
+  },
+  "author": "Leon Revill",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RevillWeb/wc-styling-investigation/issues"
+  },
+  "homepage": "https://github.com/RevillWeb/wc-styling-investigation#readme",
+  "devDependencies": {
+    "babel-plugin-transform-object-assign": "^6.8.0",
+    "babel-preset-es2015": "^6.18.0"
+  },
+  "babel": {
+    "presets": ["es2015"],
+    "plugins": ["transform-object-assign"]
+  }
+}
