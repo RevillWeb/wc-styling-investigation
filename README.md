@@ -59,3 +59,4 @@ This component is incredibly simple (and not very well designed) but provides th
 1. Clone the repo
 2. `npm install`
 3. `npm run transpile` to transpile the `drop-select.js` Web Component
+4. `npm run serve` to serve index.html via a node HTTP server

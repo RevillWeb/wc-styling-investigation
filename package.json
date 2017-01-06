@@ -4,7 +4,8 @@
   "description": "Repo used for investigations on Web Component styling methods.",
   "main": "index.html",
   "scripts": {
-    "transpile": "babel --presets es2015 drop-select/src/drop-select.js --out-file drop-select/dist/drop-select.js"
+    "transpile": "babel --presets es2015 drop-select/src/drop-select.js --out-file drop-select/dist/drop-select.js",
+    "serve": "http-server -p 8080 ."
   },
   "repository": {
     "type": "git",
@@ -18,10 +19,15 @@
   "homepage": "https://github.com/RevillWeb/wc-styling-investigation#readme",
   "devDependencies": {
     "babel-plugin-transform-object-assign": "^6.8.0",
-    "babel-preset-es2015": "^6.18.0"
+    "babel-preset-es2015": "^6.18.0",
+    "http-server": "^0.9.0"
   },
   "babel": {
-    "presets": ["es2015"],
-    "plugins": ["transform-object-assign"]
+    "presets": [
+      "es2015"
+    ],
+    "plugins": [
+      "transform-object-assign"
+    ]
   }
 }
