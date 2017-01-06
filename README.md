@@ -20,6 +20,18 @@ Each component should define its own styling API which is surfaced as a set of C
 
 Because choosing colors (and other aspects of styling) that work well together is not a trivial task it would be desirable to provide a set of themes for each component. As CSS @apply mixins allow users to modify multiple CSS statements with a single definition @apply mixins would be perfect here.
 
+##Components
+
+A set of very basic vanilla Web Components will be added to this repo to prototype the ideas presented above. At least a drop select, carousel and nav menu will be added.
+
+###drop-select
+
+This component is incredibly simple (and not very well designed) but provides the following styling API as a way to experiment with CSS Custom Properties, CSS @apply mixins and the various polyfills to ensure cross platform support.
+
+* --primary-color (Default: #333)
+* --secondary-color (Default: #E1E1E1)
+* --background-color (Default: #FFF)
+
 ##Polyfills used
 
 * [document-register-element](https://github.com/WebReflection/document-register-element) - Custom Elements V1 polyfill
